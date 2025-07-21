@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name='tasktracker'
+version='0.1'
+requires-python = ">= 3.8"
+dependencies = [
+  "click",
+
+]
+authors=[
+    {name = 'rougho', email = 'rohi@rgho.de'}
+]
+description='roadmap.sh project'
+readme='README.md'
+license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+
+
+
+[project.scripts]
+task-cli = "tasktracker.task_tracker:cli"
+
+
+
+
+
