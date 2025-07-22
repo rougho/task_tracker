@@ -4,25 +4,9 @@ import json
 import os
 from .tasks import Manager
 
+
 console = Console()
-base_dir = os.path.dirname(os.path.abspath(__file__))
-tasks_path = os.path.join(base_dir, "tasks_data.json")
-
 manager = Manager()
-
-            
-
-
-# def write_tasks(task: Task):
-#     tasks = read_tasks()
-#     tasks.update(task.data_into_dict())
-#     with open(tasks_path, 'w', encoding='utf-8') as file:
-#         json.dump(tasks, file, ensure_ascii=False, indent=4)
-
-
-# def list_tasks():
-#     data = read_tasks()
-#     return data.keys()
 
 
 @click.group()
@@ -34,7 +18,7 @@ def cli():
 @click.argument('task')
 def add(task):
     """Add a new task."""
-    a_task = Task(description=task, status='in progress')
+    manager.add_task(description=task, status='in progress')
     # write_tasks(a_task)
     console.print(f"Added task: {task}", style='magenta')
 
@@ -69,7 +53,7 @@ def mark_done(task):
 def list(status):
     """List tasks by status (done, todo, in progress or all)."""
     status_map = {
-        '':      ('[cyan]Listing all tasks[/]',),
+        '':      ('[cyan]Listing all tasks[/]', manager.list_all_tasks()),
         'done':  ('[green]Listing done tasks[/]',),
         'todo':  ('[yellow]Listing todo tasks[/]',),
         'in-progress': ('[blue]Listing in-progress tasks[/]',)

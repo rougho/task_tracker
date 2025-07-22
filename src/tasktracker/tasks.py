@@ -11,9 +11,9 @@ class Task:
     description: str
     status: str
     id: str = field(default_factory=lambda: str(uuid.uuid4()))
-    index: str = field(init=False, default="")
+    index: int = field(init=False, default=0)
     createdAt: str = field(default_factory=lambda: datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-    updatedAt: str = field(init=False)
+    updatedAt: str = field(init=False, default="")
     
     def __post_init__(self):
         self.updatedAt = self.createdAt
@@ -24,27 +24,38 @@ class Task:
 
 
 class Manager:
-    def __init__(self, json_file='data.json'):
+    def __init__(self, json_file='data/task_data.json'):
         self.json_file = json_file
         self.tasks = []
         self.load_tasks()
     
     def load_tasks(self):
         """Load tasks from JSON file"""
+        if not os.path.exists(self.json_file):
+            with open(self.json_file, 'w') as file:
+                json.dump([], file)
+        
         if os.path.exists(self.json_file):
-            with open(self.json_file, 'r') as file:
-                tasks_data = json.load(file)
-                for task_data in tasks_data:
-                    task = Task(
-                        description=task_data['description'],
-                        status=task_data['status']
-                    )
-                    task.id = task_data.get('id', task.id)
-                    task.index=task_data.get('index', task.index)
-                    task.createdAt = task_data.get('createdAt', task.createdAt)
-                    task.updatedAt = task_data.get('updatedAt', task.updatedAt)
-                    self.tasks.append(task)
-
+            try:
+                with open(self.json_file, 'r') as file:
+                    tasks_data = json.load(file)
+                    if isinstance(tasks_data, dict) and not tasks_data:
+                        tasks_data = []
+                    
+                    for task_data in tasks_data:
+                        task = Task(
+                            description=task_data['description'],
+                            status=task_data['status']
+                        )
+                        task.id = task_data.get('id', task.id)
+                        task.index = int(task_data.get('index', task.index))
+                        task.createdAt = task_data.get('createdAt', task.createdAt)
+                        task.updatedAt = task_data.get('updatedAt', task.updatedAt)
+                        self.tasks.append(task)
+            except json.JSONDecodeError:
+                self.tasks = []
+                with open(self.json_file, 'w') as file:
+                    json.dump([], file)
     
     def save_tasks(self):
         """Save tasks to JSON file"""
@@ -55,34 +66,29 @@ class Manager:
     
     def add_task(self, description, status='todo'):
         task = Task(description, status)
-        max_index = 0
-        for existing_task in self.tasks:
-            try:
-                current_index = int(existing_task.index)
-                if current_index > max_index:
-                    max_index = current_index
-            except (ValueError, AttributeError):
-                pass
+        if self.tasks:
+            max_index = self.tasks[-1].index
+        else:
+            max_index = 0
         
-        task.index = str(max_index + 1)
+        task.index = max_index + 1
         self.tasks.append(task)
         self.save_tasks()
         return task
     
     def delete_task(self, task_index):
         """Delete task by task index field"""
-        try:
-            for i, task in enumerate(self.tasks):
-                if task.index == str(task_index):
-                    deleted_task = self.tasks.pop(i)
-                    self.save_tasks()
-                    return deleted_task
-        except:
-            raise ValueError(f"No task found with index {task_index}")
-    
+        for i, task in enumerate(self.tasks):
+            if task.index == int(task_index):
+                deleted_task = self.tasks.pop(i)
+                self.save_tasks()
+                return deleted_task
+        print(f"No task found with index {task_index}")
+        return None
+
     def update_task(self, task_index, **kwargs):
         for task in self.tasks:
-            if task.index == str(task_index):
+            if task.index == int(task_index):
                 if 'description' in kwargs:
                     task.description = kwargs['description']
                 if 'status' in kwargs:
@@ -95,5 +101,9 @@ class Manager:
     def get_all_tasks(self):
         return self.tasks
     
+    def list_all_tasks(self):
+        for task in self.tasks:
+            print(task)
+    
     def __str__(self):
-        return f'TaskManager with {len(self.tasks)} tasks'
+        return f'Manager with {len(self.tasks)} tasks'
