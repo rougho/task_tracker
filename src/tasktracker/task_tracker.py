@@ -1,4 +1,29 @@
 import click
+from rich.console import Console
+import json
+import os
+from .tasks import Manager
+
+console = Console()
+base_dir = os.path.dirname(os.path.abspath(__file__))
+tasks_path = os.path.join(base_dir, "tasks_data.json")
+
+manager = Manager()
+
+            
+
+
+# def write_tasks(task: Task):
+#     tasks = read_tasks()
+#     tasks.update(task.data_into_dict())
+#     with open(tasks_path, 'w', encoding='utf-8') as file:
+#         json.dump(tasks, file, ensure_ascii=False, indent=4)
+
+
+# def list_tasks():
+#     data = read_tasks()
+#     return data.keys()
+
 
 @click.group()
 def cli():
@@ -9,7 +34,10 @@ def cli():
 @click.argument('task')
 def add(task):
     """Add a new task."""
-    click.echo(f"Added task: {task}")
+    a_task = Task(description=task, status='in progress')
+    # write_tasks(a_task)
+    console.print(f"Added task: {task}", style='magenta')
+
 
 @cli.command()
 @click.argument('id')
@@ -40,13 +68,14 @@ def mark_done(task):
 @click.argument('status', required=False, default='')
 def list(status):
     """List tasks by status (done, todo, in progress or all)."""
-    if status == '':
-        click.echo('Listing all tasks')
-    elif status == 'done':
-        click.echo('Listing done tasks')
-    elif status == 'todo':
-        click.echo('Listing todo tasks')
-    elif status == 'in-progress':
-        click.echo('Listing todo tasks')
+    status_map = {
+        '':      ('[cyan]Listing all tasks[/]',),
+        'done':  ('[green]Listing done tasks[/]',),
+        'todo':  ('[yellow]Listing todo tasks[/]',),
+        'in-progress': ('[blue]Listing in-progress tasks[/]',)
+    }
+    status = status_map.get(status)
+    if status:
+        console.print(status)
     else:
-        click.echo('Unknown status')
+        console.print('[red]Unknown status[/]')
