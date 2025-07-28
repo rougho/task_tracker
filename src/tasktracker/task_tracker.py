@@ -1,7 +1,5 @@
 import click
 from rich.console import Console
-import json
-import os
 from .tasks import Manager
 
 
