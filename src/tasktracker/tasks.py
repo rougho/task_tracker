@@ -65,6 +65,7 @@ class Manager:
         print(f"Saved {len(self.tasks)} tasks to {self.json_file}")
     
     def add_task(self, description, status='todo'):
+        """ adding task, a description requred and staus is todo """
         task = Task(description, status)
         if self.tasks:
             max_index = self.tasks[-1].index
@@ -87,6 +88,7 @@ class Manager:
         return None
 
     def update_task(self, task_index, **kwargs):
+        task_index=int(task_index)
         for task in self.tasks:
             if task.index == int(task_index):
                 if 'description' in kwargs:
@@ -97,6 +99,7 @@ class Manager:
                 self.save_tasks()
                 return task
         raise ValueError(f"No task found with index {task_index}")
+    
 
     def get_all_tasks(self):
         return self.tasks

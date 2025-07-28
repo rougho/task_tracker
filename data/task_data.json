@@ -8,11 +8,19 @@
     "updatedAt": "2025-07-28 11:23:53"
   },
   {
-    "description": "adding third task",
-    "status": "in progress",
+    "description": "third task updated",
+    "status": "DONE",
     "id": "2d5cb815-c0ac-4167-ba09-523c602d30a3",
     "index": 3,
     "createdAt": "2025-07-28 11:02:32",
-    "updatedAt": "2025-07-28 11:02:32"
+    "updatedAt": "2025-07-28 13:33:03"
+  },
+  {
+    "description": "adding third task2",
+    "status": "todo",
+    "id": "7cf1e7c0-aa94-40f9-a388-371d7433a509",
+    "index": 4,
+    "createdAt": "2025-07-28 13:21:21",
+    "updatedAt": "2025-07-28 13:21:21"
   }
 ]
