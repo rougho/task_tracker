@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 import uuid
 from dataclasses import dataclass, field, asdict
-from random import randint
 
 
 @dataclass
@@ -19,7 +18,7 @@ class Task:
         self.updatedAt = self.createdAt
     
     def __str__(self):
-        return f'your task is {self.description} and created at {self.createdAt}'
+        return f'{self.index} - {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
 
 
 
@@ -65,6 +64,7 @@ class Manager:
         print(f"Saved {len(self.tasks)} tasks to {self.json_file}")
     
     def add_task(self, description, status='todo'):
+        """ adding task, a description requred and staus is todo """
         task = Task(description, status)
         if self.tasks:
             max_index = self.tasks[-1].index
@@ -97,6 +97,16 @@ class Manager:
                 self.save_tasks()
                 return task
         raise ValueError(f"No task found with index {task_index}")
+    
+    def status(self, task_index, status):
+        if status == 'mark-done':
+            self.update_task(task_index=task_index, status='done')
+        elif status == 'mark-todo':
+            self.update_task(task_index=task_index, status='todo')
+        elif status == 'mark-in-progress':
+            self.update_task(task_index=task_index, status='in-progress')
+        return None
+
 
     def get_all_tasks(self):
         return self.tasks
