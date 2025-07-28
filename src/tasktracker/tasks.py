@@ -19,7 +19,7 @@ class Task:
         self.updatedAt = self.createdAt
     
     def __str__(self):
-        return f'your task is {self.description} and created at {self.createdAt}'
+        return f'{self.index} - {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
 
 
 

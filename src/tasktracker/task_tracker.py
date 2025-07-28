@@ -24,14 +24,18 @@ def add(task):
 @cli.command()
 @click.argument('id')
 @click.argument('task')
-def update(id, task):
+@click.option('--status', '-s', help='update tasks status')
+def update(id, task, status):
     """Update a task by ID."""
-    click.echo(f"Updated task {id} to: {task}")
+    manager.update_task(int(id), description=task, status=status)
+    click.echo(f"Updated task {id} to: {task} with status: {status}")
+
 
 @cli.command()
 @click.argument('task')
 def delete(task):
     """Delete a task."""
+    manager.delete_task(task)
     click.echo(f"Deleted task: {task}")
 
 @cli.command()
