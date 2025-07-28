@@ -30,6 +30,8 @@ class Manager:
     
     def load_tasks(self):
         """Load tasks from JSON file"""
+        if not os.path.isdir('data'):
+            os.mkdir('data')
         if not os.path.exists(self.json_file):
             with open(self.json_file, 'w') as file:
                 json.dump([], file)
@@ -99,13 +101,16 @@ class Manager:
         raise ValueError(f"No task found with index {task_index}")
     
     def status(self, task_index, status):
-        if status == 'mark-done':
-            self.update_task(task_index=task_index, status='done')
-        elif status == 'mark-todo':
-            self.update_task(task_index=task_index, status='todo')
-        elif status == 'mark-in-progress':
-            self.update_task(task_index=task_index, status='in-progress')
-        return None
+        try:
+            if status == 'mark-done':
+                self.update_task(task_index=task_index, status='done')
+            elif status == 'mark-todo':
+                self.update_task(task_index=task_index, status='todo')
+            elif status == 'mark-in-progress':
+                self.update_task(task_index=task_index, status='in-progress')
+            return None
+        except Exception as e:
+            return f' Error: {e}'
 
 
     def get_all_tasks(self):
