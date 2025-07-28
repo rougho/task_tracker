@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 import uuid
 from dataclasses import dataclass, field, asdict
-from random import randint
 
 
 @dataclass
@@ -88,7 +87,6 @@ class Manager:
         return None
 
     def update_task(self, task_index, **kwargs):
-        task_index=int(task_index)
         for task in self.tasks:
             if task.index == int(task_index):
                 if 'description' in kwargs:
@@ -100,6 +98,15 @@ class Manager:
                 return task
         raise ValueError(f"No task found with index {task_index}")
     
+    def status(self, task_index, status):
+        if status == 'mark-done':
+            self.update_task(task_index=task_index, status='done')
+        elif status == 'mark-todo':
+            self.update_task(task_index=task_index, status='todo')
+        elif status == 'mark-in-progress':
+            self.update_task(task_index=task_index, status='in-progress')
+        return None
+
 
     def get_all_tasks(self):
         return self.tasks
