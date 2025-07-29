@@ -125,7 +125,7 @@ class TestLoadTasks(BaseTestCase):
 
 class TestAddTask(BaseTestCase):
     
-    def test_add_successfuly_task(self):
+    def test_add_successfully_task(self):
 
         manager = Manager(self.test_file)
 
