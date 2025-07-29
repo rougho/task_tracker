@@ -246,7 +246,7 @@ class TestUpdateTask(BaseTestCase):
         task2 = manager.add_task('Second task to be updated') #task 2
         manager.add_task('Third task to be updated')# task 3
 
-        #Create a copy of the original created task for compartition after update the original
+        #Create a copy of the original created task for comparison after updating the original
         temp_task2 = task2
         
         #pause the process so that the timestamp
