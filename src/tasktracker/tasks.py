@@ -31,12 +31,19 @@ class Manager:
     
     def load_tasks(self) -> None:
         """Load tasks from JSON file"""
-        if not os.path.isdir('data'):
-            os.mkdir('data')
+        self.tasks = []
+
+        # Extract directory from json_file path and create it if needed
+        json_dir = os.path.dirname(self.json_file)
+        if json_dir and not os.path.exists(json_dir):
+            os.makedirs(json_dir)  # Create all necessary parent directories
+        
+        # Create the JSON file if it doesn't exist
         if not os.path.exists(self.json_file):
             with open(self.json_file, 'w') as file:
                 json.dump([], file)
         
+        # Load existing tasks
         if os.path.exists(self.json_file):
             try:
                 with open(self.json_file, 'r') as file:
@@ -95,9 +102,10 @@ class Manager:
         """Delete task by task index field"""
         for i, task in enumerate(self.tasks):
             if task.index == int(task_index):
-                self.tasks.pop(i)
+                deleted_task = self.tasks.pop(i)
                 self.save_tasks()
-                print(f'The task with the ID number {i} were deleted')
+                print(f'The task with the ID number {i+1} were deleted')
+                return deleted_task
         raise ValueError(f"No task found with index {task_index}")
 
     def update_task(self, task_index: int, **kwargs: str) -> object:
