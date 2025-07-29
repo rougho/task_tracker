@@ -3,7 +3,8 @@ import os
 from datetime import datetime
 import uuid
 from dataclasses import dataclass, field, asdict
-
+from typing import List
+from .colors import Color
 
 @dataclass
 class Task:
@@ -14,11 +15,11 @@ class Task:
     createdAt: str = field(default_factory=lambda: datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     updatedAt: str = field(init=False, default="")
     
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.updatedAt = self.createdAt
     
-    def __str__(self):
-        return f'{self.index} - {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
+    def __str__(self) -> str:
+        return f'{Color.GREEN}{self.index}{Color.RESET} - {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
 
 
 
@@ -28,12 +29,21 @@ class Manager:
         self.tasks = []
         self.load_tasks()
     
-    def load_tasks(self):
+    def load_tasks(self) -> None:
         """Load tasks from JSON file"""
+        self.tasks = []
+
+        # Extract directory from json_file path and create it if needed
+        json_dir = os.path.dirname(self.json_file)
+        if json_dir and not os.path.exists(json_dir):
+            os.makedirs(json_dir)  # Create all necessary parent directories
+        
+        # Create the JSON file if it doesn't exist
         if not os.path.exists(self.json_file):
             with open(self.json_file, 'w') as file:
                 json.dump([], file)
         
+        # Load existing tasks
         if os.path.exists(self.json_file):
             try:
                 with open(self.json_file, 'r') as file:
@@ -56,37 +66,49 @@ class Manager:
                 with open(self.json_file, 'w') as file:
                     json.dump([], file)
     
-    def save_tasks(self):
+    def save_tasks(self) -> None:
         """Save tasks to JSON file"""
-        tasks_data = [asdict(task) for task in self.tasks]
-        with open(self.json_file, 'w') as file:
-            json.dump(tasks_data, file, indent=2)
-        print(f"Saved {len(self.tasks)} tasks to {self.json_file}")
+        try:
+            tasks_data = [asdict(task) for task in self.tasks]
+            with open(self.json_file, 'w') as file:
+                json.dump(tasks_data, file, indent=2)
+        except Exception as e:
+            raise RuntimeError(f'Error saving tasks: {e}') from e
     
-    def add_task(self, description, status='todo'):
-        """ adding task, a description requred and staus is todo """
-        task = Task(description, status)
-        if self.tasks:
-            max_index = self.tasks[-1].index
-        else:
-            max_index = 0
+    def add_task(self, description: str, status: str = 'todo') -> Task:
+        """Add a task with description and status"""
+        if not description.strip():
+            raise ValueError("Task description cannot be empty")
         
-        task.index = max_index + 1
-        self.tasks.append(task)
-        self.save_tasks()
-        return task
+        if status not in ['todo', 'in-progress', 'done']:
+            raise ValueError(f"Invalid status: {status}")
+        
+        try:
+            task = Task(description, status)
+            if self.tasks:
+                max_index = self.tasks[-1].index
+            else:
+                max_index = 0
+            
+            task.index = max_index + 1
+            self.tasks.append(task)
+            self.save_tasks()
+            return task
+        
+        except Exception as e:
+            raise RuntimeError(f"Failed to add task: {e}") from e
     
-    def delete_task(self, task_index):
+    def delete_task(self, task_index: int) -> Task:
         """Delete task by task index field"""
         for i, task in enumerate(self.tasks):
             if task.index == int(task_index):
                 deleted_task = self.tasks.pop(i)
                 self.save_tasks()
+                print(f'The task with the ID number {i+1} were deleted')
                 return deleted_task
-        print(f"No task found with index {task_index}")
-        return None
+        raise ValueError(f"No task found with index {task_index}")
 
-    def update_task(self, task_index, **kwargs):
+    def update_task(self, task_index: int, **kwargs: str) -> object:
         for task in self.tasks:
             if task.index == int(task_index):
                 if 'description' in kwargs:
@@ -96,24 +118,36 @@ class Manager:
                 task.updatedAt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 self.save_tasks()
                 return task
-        raise ValueError(f"No task found with index {task_index}")
+        print(f"No task found with index {task_index}")
     
-    def status(self, task_index, status):
+    def status(self, task_index: int, status: str) -> None:
         if status == 'mark-done':
             self.update_task(task_index=task_index, status='done')
         elif status == 'mark-todo':
             self.update_task(task_index=task_index, status='todo')
         elif status == 'mark-in-progress':
             self.update_task(task_index=task_index, status='in-progress')
-        return None
+        else:
+            raise ValueError(f"Invalid status command: {status}")
 
 
-    def get_all_tasks(self):
+    def get_all_tasks(self) -> List[Task]:
         return self.tasks
     
-    def list_all_tasks(self):
+    def list_all_tasks(self) -> None:
         for task in self.tasks:
             print(task)
+
+    def list_by_arg(self, status_filter: str) -> None:
+        """List tasks filtered by status"""
+        founded_tasks = [task for task in self.tasks if task.status == status_filter]
+        
+        if not founded_tasks:
+            print(f"No tasks found with status '{status_filter}'")
+            return
+        
+        for task in founded_tasks:
+            print(task)
     
-    def __str__(self):
+    def __str__(self) -> str:
         return f'Manager with {len(self.tasks)} tasks'
