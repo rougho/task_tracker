@@ -3,7 +3,8 @@ import os
 import json
 import tempfile
 import shutil
-from tasktracker.tasks import Manager, Task
+from tasktracker.tasks import Manager
+
 
 
 class BaseTestCase(unittest.TestCase):
