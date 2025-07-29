@@ -164,7 +164,7 @@ class TestAddTask(BaseTestCase):
         task1= manager.add_task('First task')
         task2=manager.add_task('Second task')
         task3=manager.add_task('Third task')
-        task4=manager.add_task('Forth task')
+        task4=manager.add_task('Fourth task')
 
         #Check each task index number
         self.assertEqual(task1.index, 1)
