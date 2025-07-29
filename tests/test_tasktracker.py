@@ -254,7 +254,7 @@ class TestUpdateTask(BaseTestCase):
         time.sleep(2) 
 
         #Update the task with Index 2
-        manager.update_task(2, description='Secend task is updated!')
+        manager.update_task(2, description='Second task is updated!')
 
         self.assertEqual(task2.description, temp_task2.description)
         self.assertEqual(task2.status, temp_task2.status)
