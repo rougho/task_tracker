@@ -175,7 +175,7 @@ class TestAddTask(BaseTestCase):
         #Check the length of the task manager (Four task created so = 4)
         self.assertEqual(len(manager.tasks), 4)
 
-    def test_task_presists(self):
+    def test_task_persists(self):
         manager = Manager(self.test_file)
 
         manager.add_task('Test save tasks', 'in-progress')
