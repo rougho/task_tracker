@@ -163,7 +163,7 @@ class TestAddTask(BaseTestCase):
         #Add Four different task
         task1= manager.add_task('First task')
         task2 = manager.add_task('Second task')
-        task3=manager.add_task('Third task')
+        task3 = manager.add_task('Third task')
         task4=manager.add_task('Fourth task')
 
         #Check each task index number
