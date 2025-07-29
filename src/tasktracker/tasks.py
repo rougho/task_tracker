@@ -19,7 +19,7 @@ class Task:
         self.updatedAt = self.createdAt
     
     def __str__(self) -> str:
-        return f'{Color.GREEN}{self.index}{Color.RESET} - {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
+        return f'{Color.GREEN}{self.index}{Color.RESET} - {self.description} (Status: {self.status}) [Created at: {Color.BRIGHT_BLUE}{self.createdAt}{Color.RESET}]'
 
 
 
@@ -77,6 +77,7 @@ class Manager:
     
     def add_task(self, description: str, status: str = 'todo') -> Task:
         """Add a task with description and status"""
+        status=status.lower()
         if not description.strip():
             raise ValueError("Task description cannot be empty")
         
@@ -114,11 +115,12 @@ class Manager:
                 if 'description' in kwargs:
                     task.description = kwargs['description']
                 if 'status' in kwargs:
-                    task.status = kwargs['status']
+                    task.status = kwargs['status'].lower()
                 task.updatedAt = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 self.save_tasks()
                 return task
         print(f"No task found with index {task_index}")
+        raise ValueError(f"No task found with index {task_index}")
     
     def status(self, task_index: int, status: str) -> None:
         if status == 'mark-done':
@@ -138,16 +140,19 @@ class Manager:
         for task in self.tasks:
             print(task)
 
-    def list_by_arg(self, status_filter: str) -> None:
+    def list_by_arg(self, status_filter: str) -> List[Task]:
         """List tasks filtered by status"""
         founded_tasks = [task for task in self.tasks if task.status == status_filter]
         
         if not founded_tasks:
             print(f"No tasks found with status '{status_filter}'")
-            return
+            return []
         
         for task in founded_tasks:
             print(task)
+        
+        return founded_tasks
     
+
     def __str__(self) -> str:
         return f'Manager with {len(self.tasks)} tasks'
