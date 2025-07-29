@@ -5,6 +5,7 @@ import tempfile
 import shutil
 from tasktracker.tasks import Manager, Task
 
+
 class BaseTestCase(unittest.TestCase):
     """Base test class with common setup and teardown."""
     
@@ -118,6 +119,27 @@ class TestLoadTasks(BaseTestCase):
         
         manager.load_tasks()
         self.assertEqual(len(manager.tasks), 1) 
+
+
+class TestAddTask(BaseTestCase):
+    pass
+
+
+class TestDeleteTask(BaseTestCase):
+    pass
+
+
+class TestUpdateTask(BaseTestCase):
+    pass
+
+
+class TestStatus(BaseTestCase):
+    pass
+
+
+class TestListing(BaseTestCase):
+    pass
+
 
 
 if __name__ == '__main__':
