@@ -125,7 +125,7 @@ class TestLoadTasks(BaseTestCase):
 
 class TestAddTask(BaseTestCase):
     
-    def test_add_successfuly_task(self):
+    def test_add_successfully_task(self):
 
         manager = Manager(self.test_file)
 
@@ -162,9 +162,9 @@ class TestAddTask(BaseTestCase):
 
         #Add Four different task
         task1= manager.add_task('First task')
-        task2=manager.add_task('Second task')
-        task3=manager.add_task('Third task')
-        task4=manager.add_task('Forth task')
+        task2 = manager.add_task('Second task')
+        task3 = manager.add_task('Third task')
+        task4=manager.add_task('Fourth task')
 
         #Check each task index number
         self.assertEqual(task1.index, 1)
@@ -175,7 +175,7 @@ class TestAddTask(BaseTestCase):
         #Check the length of the task manager (Four task created so = 4)
         self.assertEqual(len(manager.tasks), 4)
 
-    def test_task_presists(self):
+    def test_task_persists(self):
         manager = Manager(self.test_file)
 
         manager.add_task('Test save tasks', 'in-progress')
@@ -246,7 +246,7 @@ class TestUpdateTask(BaseTestCase):
         task2 = manager.add_task('Second task to be updated') #task 2
         manager.add_task('Third task to be updated')# task 3
 
-        #Create a copy of the original created task for compartition after update the original
+        #Create a copy of the original created task for comparison after updating the original
         temp_task2 = task2
         
         #pause the process so that the timestamp
@@ -254,7 +254,7 @@ class TestUpdateTask(BaseTestCase):
         time.sleep(1) 
 
         #Update the task with Index 2
-        manager.update_task(2, description='Secend task is updated!')
+        manager.update_task(2, description='Second task is updated!')
 
         self.assertEqual(task2.description, temp_task2.description)
         self.assertEqual(task2.status, temp_task2.status)
