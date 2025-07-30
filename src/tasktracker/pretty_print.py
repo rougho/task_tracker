@@ -90,10 +90,3 @@ def print_by_tasks_command(command: str, **kwargs) -> None:
         print('-' * ((len(kwargs['task'].description))+ 30)) # add 30 extra space for the approximate number of characters printed as part of message.
         print('\n')
 
-
-
-
-
-
-
-
