@@ -251,7 +251,7 @@ class TestUpdateTask(BaseTestCase):
         
         #pause the process so that the timestamp
         #on the updated task be different then the original task
-        time.sleep(2) 
+        time.sleep(1) 
 
         #Update the task with Index 2
         manager.update_task(2, description='Secend task is updated!')

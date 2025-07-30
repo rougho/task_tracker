@@ -4,7 +4,7 @@ from datetime import datetime
 import uuid
 from dataclasses import dataclass, field, asdict
 from typing import List
-from .colors import Color
+
 
 @dataclass
 class Task:
@@ -19,7 +19,7 @@ class Task:
         self.updatedAt = self.createdAt
     
     def __str__(self) -> str:
-        return f'{Color.GREEN}{self.index}{Color.RESET} - {self.description} (Status: {self.status}) [Created at: {Color.BRIGHT_BLUE}{self.createdAt}{Color.RESET}]'
+        return f'{self.index}- {self.description} (Status: {self.status}) [Created at: {self.createdAt}]'
 
 
 
@@ -72,6 +72,7 @@ class Manager:
             tasks_data = [asdict(task) for task in self.tasks]
             with open(self.json_file, 'w') as file:
                 json.dump(tasks_data, file, indent=2)
+
         except Exception as e:
             raise RuntimeError(f'Error saving tasks: {e}') from e
     
@@ -105,7 +106,6 @@ class Manager:
             if task.index == int(task_index):
                 deleted_task = self.tasks.pop(i)
                 self.save_tasks()
-                print(f'The task with the ID number {i+1} were deleted')
                 return deleted_task
         raise ValueError(f"No task found with index {task_index}")
 
@@ -147,9 +147,6 @@ class Manager:
         if not founded_tasks:
             print(f"No tasks found with status '{status_filter}'")
             return []
-        
-        for task in founded_tasks:
-            print(task)
         
         return founded_tasks
     
