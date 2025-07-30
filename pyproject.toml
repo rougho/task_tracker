@@ -3,25 +3,43 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name='tasktracker'
-version='0.1'
+name = "tasktracker-cli"
+version = "0.1.0"
+description = "A simple command-line task management tool"
+readme = "README.md"
+license = {text = "MIT"}
 requires-python = ">= 3.8"
-dependencies = [
-  "click",
-  "rich",
-
+authors = [
+    {name = "rougho", email = "rohi@rgho.de"}
 ]
-authors=[
-    {name = 'rougho', email = 'rohi@rgho.de'}
+keywords = ["task", "tracker", "cli", "todo", "command-line"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Environment :: Console",
 ]
-description='roadmap.sh project'
-readme='README.md'
-license = "MIT AND (Apache-2.0 OR BSD-2-Clause)"
+dependencies = []
 
-
+[project.urls]
+Homepage = "https://github.com/rougho/tasktracker-cli"
+Repository = "https://github.com/rougho/tasktracker-cli"
 
 [project.scripts]
 task-cli = "tasktracker.task_tracker:main"
+
+[tool.setuptools]
+packages = ["tasktracker"]
+package-dir = {"" = "src"}
+
 
 
 
