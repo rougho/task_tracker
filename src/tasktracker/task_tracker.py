@@ -77,7 +77,7 @@ def main():
         - mark-done: Mark a task as completed
         - mark-in-progress: Mark a task as in progress
         - mark-todo: Mark a task as todo
-        - search: Search tasks by status (same as list with filter)
+        # Note: Searching tasks by status is part of the 'list' command
     
     The function uses argparse to handle command-line arguments and a dictionary
     of lambda functions to dispatch commands to their respective handlers.
