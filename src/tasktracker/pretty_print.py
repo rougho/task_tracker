@@ -90,10 +90,3 @@ def print_by_tasks_command(command: str, **kwargs) -> None:
         print('-' * ((len(kwargs['task'].description))+ 30))
         print('\n')
 
-
-
-
-
-
-
-
