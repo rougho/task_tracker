@@ -33,11 +33,11 @@
   },
   {
     "description": "new test to add into my tasks",
-    "status": "in-progress",
+    "status": "done",
     "id": "ac5a329b-e80d-452b-82a3-0026fdaface3",
     "index": 5,
     "createdAt": "2025-07-29 22:33:15",
-    "updatedAt": "2025-07-29 22:33:15"
+    "updatedAt": "2025-07-30 13:17:48"
   },
   {
     "description": "i need to finish this",
@@ -101,6 +101,6 @@
     "id": "999a4216-aa19-4036-aa48-6075846ff973",
     "index": 16,
     "createdAt": "2025-07-30 13:00:00",
-    "updatedAt": "2025-07-30 13:00:00"
+    "updatedAt": "2025-07-30 13:24:34"
   }
 ]

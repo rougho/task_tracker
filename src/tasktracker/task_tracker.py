@@ -65,9 +65,9 @@ def main():
         'update': lambda: pretty_print.print_by_tasks_command('update', task=manager.update_task(args.task_index, description=args.task, status=args.status)),
         'delete': lambda: pretty_print.print_by_tasks_command('delete', task=manager.delete_task(args.task_index)),
         'list': lambda: pretty_print.print_table(manager.list_by_arg(args.search), 'Search Results') if args.search else pretty_print.print_table(manager.get_all_tasks(), 'All Tasks'),
-        'mark-in-progress': lambda: pretty_print.print_table('status', tasks=manager.status(task_index=args.task_index, status=args.command)),
-        'mark-done': lambda: pretty_print.print_table('status', tasks=manager.status(task_index=args.task_index, status=args.command)),
-        'mark-todo': lambda: pretty_print.print_table('status', tasks=manager.status(task_index=args.task_index, status=args.command)),
+        'mark-in-progress': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
+        'mark-done': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
+        'mark-todo': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
         'search': lambda: pretty_print.print_table(manager.list_by_arg(args.search), 'Search Results'),
     }
     

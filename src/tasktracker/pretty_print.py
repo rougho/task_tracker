@@ -84,7 +84,7 @@ def print_by_tasks_command(command: str, **kwargs) -> None:
             print(f'{Color.GREEN} ✓{Color.RESET} - The Task with the ID number -> {Color.BLUE}{task.index}{Color.RESET} \n   - has been {Color.GREEN}successfully{Color.RESET} Updated!!')
 
         if command == 'status':
-            print(f'{Color.GREEN} ✓{Color.RESET} - Your Task Status has been {Color.GREEN}successfully{Color.RESET} updated!!')
+            print(f'{Color.GREEN} ✓{Color.RESET} - Your Task Status with ID {task.index} has been {Color.GREEN}successfully{Color.RESET} updated!!')
         
 
         print('-' * ((len(kwargs['task'].description))+ 30))

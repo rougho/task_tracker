@@ -124,11 +124,11 @@ class Manager:
     
     def status(self, task_index: int, status: str) -> None:
         if status == 'mark-done':
-            self.update_task(task_index=task_index, status='done')
+            return self.update_task(task_index=task_index, status='done')
         elif status == 'mark-todo':
-            self.update_task(task_index=task_index, status='todo')
+            return self.update_task(task_index=task_index, status='todo')
         elif status == 'mark-in-progress':
-            self.update_task(task_index=task_index, status='in-progress')
+            return self.update_task(task_index=task_index, status='in-progress')
         else:
             raise ValueError(f"Invalid status command: {status}")
 
