@@ -1,6 +1,7 @@
 # from rich.console import Console
 from .tasks import Manager
 import argparse
+from . import pretty_print
 
 # console = Console()
 manager = Manager()
@@ -15,9 +16,14 @@ def main():
         epilog='''Examples:
         task-cli add "Buy groceries"
         task-cli list
+        task-cli list done
+        task-cli list in-progress
+        task-cli list todo
         task-cli update 1 "Buy organic groceries" -s done
         task-cli delete 1
-        task-cli mark-done 1''',
+        task-cli mark-done 1
+        
+        ''',
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     
@@ -55,14 +61,14 @@ def main():
     args = parser.parse_args()
 
     command_handlers = {
-        'add': lambda: manager.add_task(args.task, status=args.status),
-        'update': lambda: manager.update_task(args.task_index, description=args.task, status=args.status),
-        'delete': lambda: manager.delete_task(args.task_index),
-        'list': lambda: manager.list_by_arg(args.search) if args.search else manager.list_all_tasks(),
-        'mark-in-progress': lambda: manager.status(task_index=args.task_index, status=args.command),
-        'mark-done': lambda: manager.status(task_index=args.task_index, status=args.command),
-        'mark-todo': lambda: manager.status(task_index=args.task_index, status=args.command),
-        'search': lambda: manager.list_by_arg(args.search),
+        'add': lambda: pretty_print.print_by_tasks_command('add', task=manager.add_task(args.task, status=args.status)),
+        'update': lambda: pretty_print.print_by_tasks_command('update', task=manager.update_task(args.task_index, description=args.task, status=args.status)),
+        'delete': lambda: pretty_print.print_by_tasks_command('delete', task=manager.delete_task(args.task_index)),
+        'list': lambda: pretty_print.print_table(manager.list_by_arg(args.search), 'Search Results') if args.search else pretty_print.print_table(manager.get_all_tasks(), 'All Tasks'),
+        'mark-in-progress': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
+        'mark-done': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
+        'mark-todo': lambda: pretty_print.print_by_tasks_command('status', task=manager.status(task_index=args.task_index, status=args.command)),
+        'search': lambda: pretty_print.print_table(manager.list_by_arg(args.search), 'Search Results'),
     }
     
     if args.command in command_handlers:

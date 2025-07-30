@@ -1,6 +1,8 @@
 #test files
 data.json
 src/taskmanager/task_data.json
+data/
+data/task_data.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
