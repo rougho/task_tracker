@@ -73,7 +73,7 @@ def print_by_tasks_command(command: str, **kwargs) -> None:
         task = kwargs['task']
 
         print('\n')
-        print('-' * ((len(kwargs['task'].description))+ 30))
+        print('-' * ((len(kwargs['task'].description))+ 30)) # add 30 extra space for the approximate number of characters printed as part of message.
         if command == 'add':
             print(f'{Color.GREEN} ✓{Color.RESET} - Your Task -> {Color.GREEN}{task.description}{Color.RESET} \n   - with ID number -> {Color.GREEN}{task.index}{Color.RESET} \n   - has been successfully added!')
 
@@ -87,7 +87,7 @@ def print_by_tasks_command(command: str, **kwargs) -> None:
             print(f'{Color.GREEN} ✓{Color.RESET} - Your Task Status with ID {task.index} has been {Color.GREEN}successfully{Color.RESET} updated!!')
         
 
-        print('-' * ((len(kwargs['task'].description))+ 30))
+        print('-' * ((len(kwargs['task'].description))+ 30)) # add 30 extra space for the approximate number of characters printed as part of message.
         print('\n')
 
 
